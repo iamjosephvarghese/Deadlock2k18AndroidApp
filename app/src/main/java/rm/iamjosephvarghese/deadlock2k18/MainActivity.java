@@ -12,6 +12,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    int level;
+    String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("players");
+        DatabaseReference questionRef = database.getReference("images");
+        DatabaseReference answerRef = database.getReference("answers");
 
 
         ref.child("id1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("val",dataSnapshot.getValue().toString());
+                level = dataSnapshot.getValue(Integer.class);
+                Log.d("level",dataSnapshot.getValue().toString());
             }
 
             @Override
@@ -33,6 +39,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+        questionRef.child("1").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                url = dataSnapshot.getValue(String.class);
+                Log.d("url",url);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
 
 
 
