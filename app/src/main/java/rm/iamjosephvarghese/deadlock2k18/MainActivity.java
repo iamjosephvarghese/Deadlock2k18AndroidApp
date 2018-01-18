@@ -61,29 +61,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        ref.child("id1").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                level = dataSnapshot.getValue(Integer.class);
-//                Log.d("level",dataSnapshot.getValue().toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
-
-
-
-        /////
-
-
-//        Glide.with(this).load(url).into(questionImage);
-
-
-
 
     }
 
@@ -98,17 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void readData(DatabaseReference ref, final OnGetDataListener listener) {
         listener.onStart();
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                listener.onSuccess(dataSnapshot);
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//                listener.onFailure();
-//            }
-//        });
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -132,22 +98,10 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseReference imageRef = database.getReference("images");
 
-//        imageRef.child("1").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                url = dataSnapshot.getValue(String.class);
-//                Log.d("url",url);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
 
-        readData(imageRef, new OnGetDataListener() {
+
+        readData(imageRef.child("1"), new OnGetDataListener() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 url = dataSnapshot.getValue(String.class);
