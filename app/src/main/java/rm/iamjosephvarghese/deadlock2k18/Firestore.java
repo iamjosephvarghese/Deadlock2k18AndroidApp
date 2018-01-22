@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.MessageDigest;
@@ -16,33 +18,57 @@ import java.util.Map;
 
 public class Firestore extends AppCompatActivity {
 
+
+    String user = "sddsdsdsdsdsd";
+    //assume this is the user id genrated from google auth
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firestore);
 
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
+        DocumentReference documentReference = db.collection("leaderboard").document(user);
 
-
-
-        Map<String,Object> playerDetails = new HashMap<>();
-        playerDetails.put("created",new Date());
-
-        db.collection("users").document("1").set(playerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("Success","..........");
-
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                    Log.d("User","already in leaderboard");
+                }else{
+                    db.collection("leaderboard");
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("Error","............");
+                Log.d("Error","checking if user present in leaderboard");
             }
         });
+
+
+
+
+
+
+//        Map<String,Object> playerDetails = new HashMap<>();
+//        playerDetails.put("created",new Date());
+//
+//        db.collection("users").document("1").set(playerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Log.d("Success","..........");
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d("Error","............");
+//            }
+//        });
 
 
 
