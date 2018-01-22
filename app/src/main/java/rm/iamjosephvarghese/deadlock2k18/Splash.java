@@ -44,6 +44,7 @@ public class Splash extends AppCompatActivity implements
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class Splash extends AppCompatActivity implements
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-                        Toast.makeText(Splash.this,"Error",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Splash.this,"Error",Toast.LENGTH_LONG).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -83,8 +84,14 @@ public class Splash extends AppCompatActivity implements
 
 
         mAuth = FirebaseAuth.getInstance();
+//        getting user
+        user = mAuth.getCurrentUser();
 // getting UID here
-        Log.d("UID",mAuth.getCurrentUser().getUid());
+        if (user != null){
+            Log.d("UID",mAuth.getCurrentUser().getUid());
+        }else{
+            Log.d("UID","Not signed in");
+        }
 
         ///////////
 
@@ -92,15 +99,20 @@ public class Splash extends AppCompatActivity implements
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                Toast.makeText(GoogleSignInActivity.this, "Before Logged in.",
+//                Toast.makeText(Splash.this, "Before Logged in.",
 //                        Toast.LENGTH_SHORT).show();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d("UID",user.getUid());
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Toast.makeText(Splash.this, "Logged in.",
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Splash.this, "Logged in.",
+//                            Toast.LENGTH_SHORT).show();
+
+//
+//
+//
+//                    getUID(user);
                     Log.d("UID",user.getUid());
                 } else {
                     // User is signed out
@@ -109,7 +121,7 @@ public class Splash extends AppCompatActivity implements
                 }
                 // [START_EXCLUDE]
                 updateUI(user);
-                // [END_EXCLUDE]
+//                 [END_EXCLUDE]
             }
         };
         // [END auth_state_listener]
@@ -127,14 +139,12 @@ public class Splash extends AppCompatActivity implements
             Log.d(TAG,"Intent received");
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
+                //Log.d("UID func",user.getUid());
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                // Google Sign In failed, update UI appropriately
-                // [START_EXCLUDE]
                 Log.d(TAG,result.getStatus().toString());
                 updateUI(null);
-                // [END_EXCLUDE]
             }
         }
     }
@@ -144,6 +154,8 @@ public class Splash extends AppCompatActivity implements
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+//        Log.d("UID func",user.getUid());
+
         // [START_EXCLUDE silent]
         // showProgressDialog();
         // [END_EXCLUDE]
@@ -154,6 +166,7 @@ public class Splash extends AppCompatActivity implements
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        getUID();
 
 
                         if (!task.isSuccessful()) {
@@ -191,19 +204,14 @@ public class Splash extends AppCompatActivity implements
 
 
     private void updateUI(FirebaseUser user) {
-        //hideProgressDialog();
+
+        Log.d("here","..........");
         if (user != null) {
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            //  mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            Log.d("UID ui",user.getUid());
+
         } else {
-//            mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
 
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
 
@@ -214,6 +222,15 @@ public class Splash extends AppCompatActivity implements
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void getUID(){
+        Log.d("Here","success");
+        String uid = user.getUid();
+        Log.d("UID.....",uid);
+
+
     }
 
 
