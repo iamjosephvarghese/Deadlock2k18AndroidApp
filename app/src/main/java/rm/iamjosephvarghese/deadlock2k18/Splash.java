@@ -151,6 +151,8 @@ public class Splash extends AppCompatActivity implements
                 public void run() {
 
 
+                    Log.d("UID 2222",user.getUid());
+
                         Intent loginIntent = new Intent(Splash.this,Firestore.class);
                         startActivity(loginIntent);
                         finish();

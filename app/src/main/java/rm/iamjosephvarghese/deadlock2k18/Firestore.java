@@ -1,5 +1,6 @@
 package rm.iamjosephvarghese.deadlock2k18;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,13 +20,22 @@ import java.util.Map;
 public class Firestore extends AppCompatActivity {
 
 
-    String user = "sddsdsdsdsdsd";
+
+
+    SharedPreferences sharedPreferences;
     //assume this is the user id genrated from google auth
+    String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firestore);
+
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        user=sharedPreferences.getString("UID",null);
+        Log.d("user",user);
+
 
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
