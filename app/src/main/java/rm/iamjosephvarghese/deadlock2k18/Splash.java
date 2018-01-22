@@ -2,6 +2,7 @@ package rm.iamjosephvarghese.deadlock2k18;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class Splash extends AppCompatActivity implements
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    Boolean loggedIn;
 
 
     SignInButton signIn;
@@ -59,6 +61,9 @@ public class Splash extends AppCompatActivity implements
 
 
 
+
+
+
         signIn = findViewById(R.id.sign_in_button);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +71,14 @@ public class Splash extends AppCompatActivity implements
                 signIn();
             }
         });
+
+        //initially setting visibility to invisible
+        signIn.setVisibility(View.INVISIBLE);
+
+
+
+
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
@@ -125,6 +138,35 @@ public class Splash extends AppCompatActivity implements
             }
         };
         // [END auth_state_listener]
+
+
+
+
+
+        loggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
+        if(loggedIn == true){
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+
+                        Intent loginIntent = new Intent(Splash.this,Firestore.class);
+                        startActivity(loginIntent);
+                        finish();
+
+
+
+                }
+            },3000);
+
+        }else {
+            signIn.setVisibility(View.VISIBLE);
+        }
+
+
+
+
     }
 
 
@@ -138,8 +180,7 @@ public class Splash extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Log.d(TAG,"Intent received");
             if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
-                //Log.d("UID func",user.getUid());
+
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
@@ -154,11 +195,6 @@ public class Splash extends AppCompatActivity implements
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-//        Log.d("UID func",user.getUid());
-
-        // [START_EXCLUDE silent]
-        // showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -221,19 +257,40 @@ public class Splash extends AppCompatActivity implements
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
 
     public void getUID(){
+        editor.putBoolean("isLoggedIn",true);
+        editor.commit();
         Log.d("Here","success");
-        String uid = user.getUid();
+        FirebaseAuth newAuth = FirebaseAuth.getInstance();
+        FirebaseUser newUser = mAuth.getCurrentUser();
+
+        String uid = newUser.getUid();
         Log.d("UID.....",uid);
 
+        editor.putString("UID",uid);
+        editor.commit();
+        Intent afterLogin = new Intent(Splash.this,Firestore.class);
+        startActivity(afterLogin);
+
+
 
     }
 
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        editor.commit();
     }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        editor.commit();
+    }
+}
 
