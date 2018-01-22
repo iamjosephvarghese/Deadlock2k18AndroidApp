@@ -1,6 +1,7 @@
 package rm.iamjosephvarghese.deadlock2k18;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,10 @@ public class Splash extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener{
 
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
+
 
     SignInButton signIn;
 
@@ -44,6 +49,14 @@ public class Splash extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+
+
 
         signIn = findViewById(R.id.sign_in_button);
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +83,8 @@ public class Splash extends AppCompatActivity implements
 
 
         mAuth = FirebaseAuth.getInstance();
-
-
+// getting UID here
+        Log.d("UID",mAuth.getCurrentUser().getUid());
 
         ///////////
 
@@ -83,13 +96,16 @@ public class Splash extends AppCompatActivity implements
 //                        Toast.LENGTH_SHORT).show();
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    Log.d("UID",user.getUid());
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     Toast.makeText(Splash.this, "Logged in.",
                             Toast.LENGTH_SHORT).show();
+                    Log.d("UID",user.getUid());
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
+
                 }
                 // [START_EXCLUDE]
                 updateUI(user);
@@ -139,17 +155,13 @@ public class Splash extends AppCompatActivity implements
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(Splash.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        // [START_EXCLUDE]
-                        //               hideProgressDialog();
-                        // [END_EXCLUDE]
+
                     }
                 });
     }
@@ -184,13 +196,13 @@ public class Splash extends AppCompatActivity implements
 //            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
             //  mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
 //            mStatusTextView.setText(R.string.signed_out);
 //            mDetailTextView.setText(null);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
 //            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
