@@ -281,7 +281,11 @@ public class Splash extends AppCompatActivity implements
         String uid = newUser.getUid();
         Log.d("UID.....",uid);
 
+        String photoURL = newUser.getPhotoUrl().toString();
+        Log.d("photoURL",photoURL);
+
         editor.putString("UID",uid);
+        editor.putString("photoURL",photoURL);
         editor.commit();
 
         DocumentReference documentReference = db.collection("users").document(uid);
