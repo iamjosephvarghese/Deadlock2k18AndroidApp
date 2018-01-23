@@ -21,12 +21,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Splash extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener{
@@ -270,11 +275,35 @@ public class Splash extends AppCompatActivity implements
         FirebaseAuth newAuth = FirebaseAuth.getInstance();
         FirebaseUser newUser = mAuth.getCurrentUser();
 
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
         String uid = newUser.getUid();
         Log.d("UID.....",uid);
 
         editor.putString("UID",uid);
         editor.commit();
+
+        DocumentReference documentReference = db.collection("users").document(uid);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                if(documentSnapshot.exists()){
+                    Intent previousUser = new Intent(Splash.this,Firestore.class);
+                    startActivity(previousUser);
+                }else{
+                    Intent newUser = new Intent(Splash.this,Collect.class);
+                    startActivity(newUser);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
         Intent afterLogin = new Intent(Splash.this,Firestore.class);
         startActivity(afterLogin);
 

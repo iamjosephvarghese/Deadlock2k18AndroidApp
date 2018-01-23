@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".Firestore"></activity>
+        <activity android:name=".Firestore" />
+        <activity android:name=".Collect"></activity>
     </application>
 
 </manifest>
