@@ -9,7 +9,7 @@ public class User {
     String college;
     String address;
     String email;
-    String photoUrl;
+    String photoURL;
     String currentHash;
     String previousHash;
     String mobno;
@@ -19,12 +19,12 @@ public class User {
     }
 
 
-    public User(String displayName, String college, String address, String email, String photoUrl, String currentHash, String previousHash, String mobno) {
+    public User(String displayName, String college, String address, String email, String photoURL, String currentHash, String previousHash, String mobno) {
         this.displayName = displayName;
         this.college = college;
         this.address = address;
         this.email = email;
-        this.photoUrl = photoUrl;
+        this.photoURL = photoURL;
         this.currentHash = currentHash;
         this.previousHash = previousHash;
         this.mobno = mobno;
@@ -62,12 +62,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getPhotoURL() {
+        return photoURL;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     public String getCurrentHash() {

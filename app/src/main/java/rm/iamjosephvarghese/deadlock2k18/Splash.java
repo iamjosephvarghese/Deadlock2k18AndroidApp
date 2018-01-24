@@ -137,12 +137,10 @@ public class Splash extends AppCompatActivity implements
                     Log.d(TAG, "onAuthStateChanged:signed_out");
 
                 }
-                // [START_EXCLUDE]
                 updateUI(user);
-//                 [END_EXCLUDE]
             }
         };
-        // [END auth_state_listener]
+
 
 
 
@@ -283,6 +281,9 @@ public class Splash extends AppCompatActivity implements
 
         String photoURL = newUser.getPhotoUrl().toString();
         Log.d("photoURL",photoURL);
+
+
+
 
         editor.putString("UID",uid);
         editor.putString("photoURL",photoURL);
