@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,10 +23,16 @@ public class Firestore extends AppCompatActivity {
 
 
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+
+    String currentHash,previousHash;
+
 
     SharedPreferences sharedPreferences;
     //assume this is the user id genrated from google auth
-    String user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,30 +40,35 @@ public class Firestore extends AppCompatActivity {
         setContentView(R.layout.activity_firestore);
 
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        user=sharedPreferences.getString("UID",null);
-        Log.d("user",user);
+//        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+//        user=sharedPreferences.getString("UID",null);
+//        Log.d("user",user);
 
 
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-        DocumentReference documentReference = db.collection("leaderboard").document(user);
+        DocumentReference userRef = db.collection("users").document(user.getUid());
 
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()){
-                    Log.d("User","already in leaderboard");
-                }else{
-                    db.collection("leaderboard");
-                }
+
+                currentHash = documentSnapshot.get("currentHash").toString();
+                Log.d("currentHash",currentHash);
+                previousHash = documentSnapshot.get("previousHash").toString();
+                Log.d("previousHash",previousHash);
+
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("Error","checking if user present in leaderboard");
+
             }
         });
 
@@ -64,25 +77,11 @@ public class Firestore extends AppCompatActivity {
 
 
 
-//        Map<String,Object> playerDetails = new HashMap<>();
-//        playerDetails.put("created",new Date());
-//
-//        db.collection("users").document("1").set(playerDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d("Success","..........");
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Log.d("Error","............");
-//            }
-//        });
-
-
-
-
-
     }
+
+
+
+
+
+
 }
