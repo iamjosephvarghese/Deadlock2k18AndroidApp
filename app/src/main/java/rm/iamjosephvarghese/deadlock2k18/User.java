@@ -7,28 +7,28 @@ package rm.iamjosephvarghese.deadlock2k18;
 public class User {
     String displayName;
     String college;
-    String address;
     String email;
     String photoURL;
     String currentHash;
     String previousHash;
     String mobno;
+    int currentLevel;
 
 
     public User() {
     }
 
-
-    public User(String displayName, String college, String address, String email, String photoURL, String currentHash, String previousHash, String mobno) {
+    public User(String displayName, String college, String email, String photoURL, String currentHash, String previousHash, String mobno, int currentLevel) {
         this.displayName = displayName;
         this.college = college;
-        this.address = address;
         this.email = email;
         this.photoURL = photoURL;
         this.currentHash = currentHash;
         this.previousHash = previousHash;
         this.mobno = mobno;
+        this.currentLevel = currentLevel;
     }
+
 
     public String getDisplayName() {
         return displayName;
@@ -44,14 +44,6 @@ public class User {
 
     public void setCollege(String college) {
         this.college = college;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getEmail() {
@@ -92,5 +84,13 @@ public class User {
 
     public void setMobno(String mobno) {
         this.mobno = mobno;
+    }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
     }
 }

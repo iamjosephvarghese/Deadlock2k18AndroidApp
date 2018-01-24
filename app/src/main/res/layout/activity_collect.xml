@@ -14,19 +14,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:hint="college"
         tools:layout_editor_absoluteX="55dp"
         tools:layout_editor_absoluteY="62dp" />
-
-    <EditText
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="128dp" />
 
     <EditText
         android:id="@+id/mobno"
@@ -34,7 +24,14 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone"
+        android:hint="mobno"
         tools:layout_editor_absoluteX="55dp"
         tools:layout_editor_absoluteY="184dp" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
 
 </LinearLayout>
