@@ -46,6 +46,7 @@ public class Collect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect);
 
+        Log.d("collect","............");
 
         college = findViewById(R.id.college);
         mobno = findViewById(R.id.mobno);
@@ -61,9 +62,9 @@ public class Collect extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
 
-//        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-//        UID=sharedPreferences.getString("UID",null);
-//        Log.d("UID",UID);
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        UID=sharedPreferences.getString("UID",null);
+        Log.d("UID",UID);
 
 
         final DocumentReference userRef = db.collection("users").document(UID);

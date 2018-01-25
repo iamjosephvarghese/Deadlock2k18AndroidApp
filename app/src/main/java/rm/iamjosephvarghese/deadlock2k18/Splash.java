@@ -298,10 +298,14 @@ public class Splash extends AppCompatActivity implements
 
                 if(documentSnapshot.exists()){
                     Intent previousUser = new Intent(Splash.this,Firestore.class);
+                    Log.d("Splash","if");
                     startActivity(previousUser);
+                    finish();
                 }else{
                     Intent newUser = new Intent(Splash.this,Collect.class);
+                    Log.d("Splash","else");
                     startActivity(newUser);
+                    finish();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -311,8 +315,8 @@ public class Splash extends AppCompatActivity implements
             }
         });
 
-        Intent afterLogin = new Intent(Splash.this,Firestore.class);
-        startActivity(afterLogin);
+//        Intent afterLogin = new Intent(Splash.this,Firestore.class);
+//        startActivity(afterLogin);
 
 
 
