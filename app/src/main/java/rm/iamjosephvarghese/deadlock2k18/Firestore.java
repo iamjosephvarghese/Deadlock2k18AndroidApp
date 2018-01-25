@@ -92,10 +92,13 @@ public class Firestore extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         photoURL = documentSnapshot.get("photoURL").toString();
-                        level = Integer.parseInt(documentSnapshot.get("level").toString());
+                        Log.d("photoUrl",photoURL);
+//                        TODO: fetching level error...need to be implemented
+//                        level is currentLevel
+//                        level = (Integer) documentSnapshot.get("currentLevel");
 
                         Glide.with(getApplicationContext()).load(photoURL).into(imageView);
-                        levelText.setText("Level" + Integer.toString(level));
+//                        levelText.setText("Level" + Integer.toString(level));
 
                         submit.setVisibility(View.VISIBLE);
 
