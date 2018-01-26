@@ -126,7 +126,6 @@ public class Firestore extends AppCompatActivity {
             }
         });
 
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,9 +156,6 @@ public class Firestore extends AppCompatActivity {
 
                         }
                     });
-
-
-
 
 
                     Log.d("generatedHash",generatedHash);
