@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public interface OnGetDataListener {
         //make new interface for call back
         void onSuccess(DataSnapshot dataSnapshot);

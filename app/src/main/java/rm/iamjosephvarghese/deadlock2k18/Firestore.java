@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.hash.Hashing;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,8 +46,11 @@ public class Firestore extends AppCompatActivity {
 
     ImageView  imageView;
     TextView levelText;
+    EditText answer;
 
     Button submit;
+
+    String toBeHashed,generatedHash;
 
 
     SharedPreferences sharedPreferences;
@@ -64,8 +70,10 @@ public class Firestore extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         levelText = findViewById(R.id.levelText);
         submit = findViewById(R.id.submit);
+        answer = findViewById(R.id.answer);
 
         submit.setVisibility(View.INVISIBLE);
+        answer.setVisibility(View.INVISIBLE);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -101,6 +109,7 @@ public class Firestore extends AppCompatActivity {
 //                        levelText.setText("Level" + Integer.toString(level));
 
                         submit.setVisibility(View.VISIBLE);
+                        answer.setVisibility(View.VISIBLE);
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -114,6 +123,47 @@ public class Firestore extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
 
+            }
+        });
+
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!answer.getText().toString().equals("")){
+                    toBeHashed = answer.getText().toString() + photoURL + currentHash;
+
+                    Log.d("tobehashed",toBeHashed);
+
+                    generatedHash = Hashing.sha256()
+                            .hashString(toBeHashed, Charset.forName("UTF-8"))
+                            .toString();
+
+
+                    DocumentReference checkRef = db.collection("q").document("questions").collection(generatedHash).document(currentHash);
+
+                    checkRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()){
+                                Log.d("Answer","correct");
+                            }else{
+                                Log.d("Answer","incorrect");
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+
+
+
+
+                    Log.d("generatedHash",generatedHash);
+                }
             }
         });
 
