@@ -42,6 +42,7 @@ public class Firestore extends AppCompatActivity {
     String currentHash,previousHash;
 
     String photoURL;
+    String levelString;
     int level;
 
     ImageView  imageView;
@@ -104,9 +105,11 @@ public class Firestore extends AppCompatActivity {
 //                        TODO: fetching level error...need to be implemented
 //                        level is currentLevel
 //                        level = (Integer) documentSnapshot.get("currentLevel");
+                        levelString = documentSnapshot.get("level").toString();
+                        level = Integer.parseInt(levelString);
 
                         Glide.with(getApplicationContext()).load(photoURL).into(imageView);
-//                        levelText.setText("Level" + Integer.toString(level));
+                        levelText.setText("Level " + levelString);
 
                         submit.setVisibility(View.VISIBLE);
                         answer.setVisibility(View.VISIBLE);
@@ -139,6 +142,8 @@ public class Firestore extends AppCompatActivity {
                             .toString();
 
 
+                    final DocumentReference logRef = db.collection("logs").document();
+
                     DocumentReference checkRef = db.collection("q").document("questions").collection(generatedHash).document(currentHash);
 
                     checkRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -146,6 +151,7 @@ public class Firestore extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()){
                                 Log.d("Answer","correct");
+//                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level))
                             }else{
                                 Log.d("Answer","incorrect");
                             }
