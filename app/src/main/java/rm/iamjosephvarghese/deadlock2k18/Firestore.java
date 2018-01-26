@@ -64,7 +64,7 @@ public class Firestore extends AppCompatActivity {
         setContentView(R.layout.activity_firestore);
 
 
-//        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 //        user=sharedPreferences.getString("UID",null);
 //        Log.d("user",user);
 
@@ -151,9 +151,32 @@ public class Firestore extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()){
                                 Log.d("Answer","correct");
-//                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level))
+                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("correctLog","success");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("correctLog","error");
+                                    }
+                                });
+
                             }else{
                                 Log.d("Answer","incorrect");
+                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("incorrectLog","success");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("incorrectLog","error");
+                                    }
+                                });
+
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
