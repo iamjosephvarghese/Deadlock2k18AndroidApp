@@ -35,6 +35,7 @@ public class Collect extends AppCompatActivity {
     Button submit;
 
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     String UID;
 
@@ -82,6 +83,12 @@ public class Collect extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
                                     Log.d("New User","success");
 
+//                                    TODO: adding details to sharedprferences to fetch later
+                                    editor.putString("email",user.getEmail());
+                                    editor.putString("mobno",mobno.getText().toString());
+                                    editor.putString("college",college.getText().toString());
+                                    editor.commit();
+
                                     Intent mainIntent = new Intent(Collect.this,Firestore.class);
                                     startActivity(mainIntent);
                                     finish();
@@ -102,6 +109,26 @@ public class Collect extends AppCompatActivity {
 
 
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        editor.commit();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        editor.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        editor.commit();
     }
 }
 
