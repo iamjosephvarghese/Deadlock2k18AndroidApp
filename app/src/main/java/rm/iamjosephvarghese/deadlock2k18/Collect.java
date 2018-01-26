@@ -64,6 +64,7 @@ public class Collect extends AppCompatActivity {
 
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         UID=sharedPreferences.getString("UID",null);
         Log.d("UID",UID);
 
@@ -83,9 +84,11 @@ public class Collect extends AppCompatActivity {
                                 public void onSuccess(Void aVoid) {
                                     Log.d("New User","success");
 
-//                                    TODO: adding details to sharedprferences to fetch later
+
+//                                    TODO: adding details to sharedprferences to fetch later....mobono null in other activity
                                     editor.putString("email",user.getEmail());
                                     editor.putString("mobno",mobno.getText().toString());
+                                    Log.d("mobno",mobno.getText().toString());
                                     editor.putString("college",college.getText().toString());
                                     editor.commit();
 
@@ -125,11 +128,7 @@ public class Collect extends AppCompatActivity {
         editor.commit();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        editor.commit();
-    }
+
 }
 
 

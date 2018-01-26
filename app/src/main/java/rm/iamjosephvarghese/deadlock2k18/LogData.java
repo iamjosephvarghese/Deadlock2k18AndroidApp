@@ -30,13 +30,13 @@ public class LogData {
     }
 
 
-    public String getUID() {
-        return UID;
-    }
-
-    public void setUID(String UID) {
-        this.UID = UID;
-    }
+//    public String getUID() {
+//        return UID;
+//    }
+//
+//    public void setUID(String UID) {
+//        this.UID = UID;
+//    }
 
     public String getAnswer() {
         return answer;
