@@ -21,17 +21,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.hash.Hashing;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.nio.charset.Charset;
-import java.security.MessageDigest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -224,17 +219,6 @@ public class Firestore extends AppCompatActivity {
                                     }
                                 },3000);
 
-//                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void aVoid) {
-//                                        Log.d("correctLog","success");
-//                                    }
-//                                }).addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Log.d("correctLog","error");
-//                                    }
-//                                });
 
                             }else{
                                 Log.d("Answer","incorrect");
