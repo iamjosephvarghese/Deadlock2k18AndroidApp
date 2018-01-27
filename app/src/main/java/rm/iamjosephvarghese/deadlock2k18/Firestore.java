@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -143,6 +144,7 @@ public class Firestore extends AppCompatActivity {
 
 
                     final DocumentReference logRef = db.collection("logs").document();
+                    final DocumentReference userUpdateRef = db.collection("users").document(user.getUid());
 
                     DocumentReference checkRef = db.collection("q").document("questions").collection(generatedHash).document(currentHash);
 
@@ -150,18 +152,43 @@ public class Firestore extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()){
+
+//                                TODO: change user levels....both previous and together..then refresh page
                                 Log.d("Answer","correct");
-                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+
+                                WriteBatch batch = db.batch();
+                                batch.set(logRef,new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date()));
+
+
+//                                TODO: doing 2 seperate updates for currentHash and previousHash
+                                batch.update(userUpdateRef,"previousHash",currentHash);
+                                batch.update(userUpdateRef,"currentHash",generatedHash);
+
+
+                                batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Log.d("correctLog","success");
+                                        Log.d("batch","success");
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.d("correctLog","error");
+                                        Log.d("batch","error");
                                     }
                                 });
+
+//                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Log.d("correctLog","success");
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.d("correctLog","error");
+//                                    }
+//                                });
 
                             }else{
                                 Log.d("Answer","incorrect");
