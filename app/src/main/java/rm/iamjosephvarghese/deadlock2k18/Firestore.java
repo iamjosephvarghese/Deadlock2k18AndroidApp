@@ -132,10 +132,7 @@ public class Firestore extends AppCompatActivity {
 
                         }
 
-
                         levelText.setText("Level " + levelString);
-
-
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -188,6 +185,7 @@ public class Firestore extends AppCompatActivity {
 //                                TODO: doing 2 seperate updates for currentHash and previousHash
                                 batch.update(userUpdateRef,"previousHash",currentHash);
                                 batch.update(userUpdateRef,"currentHash",generatedHash);
+                                batch.update(userUpdateRef,"currentLevel",level);
 
 
                                 batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -201,9 +199,7 @@ public class Firestore extends AppCompatActivity {
                                         Log.d("batch","error");
                                     }
 
-
                                 });
-
 
                                 Log.d("refresh","");
 
@@ -233,7 +229,6 @@ public class Firestore extends AppCompatActivity {
                                         Log.d("incorrectLog","error");
                                     }
                                 });
-
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -243,14 +238,11 @@ public class Firestore extends AppCompatActivity {
                         }
                     });
 
-
                     Log.d("generatedHash",generatedHash);
                 }
             }
         });
 
-
     }
-
 
 }
