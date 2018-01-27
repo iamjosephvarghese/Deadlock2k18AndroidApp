@@ -1,6 +1,9 @@
 package rm.iamjosephvarghese.deadlock2k18;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,6 +63,10 @@ public class Firestore extends AppCompatActivity {
     //assume this is the user id genrated from google auth
 
 
+    MaterialDialog.Builder builder;
+    MaterialDialog dialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +84,14 @@ public class Firestore extends AppCompatActivity {
 
         submit.setVisibility(View.INVISIBLE);
         answer.setVisibility(View.INVISIBLE);
+
+        builder = new MaterialDialog.Builder(Firestore.this)
+                .title("Correct Answer!")
+                .content("Loading Next Question")
+                .progress(true,0)
+                .progressIndeterminateStyle(true)
+                .cancelable(false);
+        dialog = builder.build();
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -189,7 +205,24 @@ public class Firestore extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         Log.d("batch","error");
                                     }
+
+
                                 });
+
+
+                                Log.d("refresh","");
+
+                                dialog.show();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                       dialog.dismiss();
+                                       finish();
+                                       startActivity(getIntent());
+
+                                    }
+                                },3000);
 
 //                                logRef.set(new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date())).addOnSuccessListener(new OnSuccessListener<Void>() {
 //                                    @Override
