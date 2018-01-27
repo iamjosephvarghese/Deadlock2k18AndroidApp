@@ -108,12 +108,23 @@ public class Firestore extends AppCompatActivity {
 //                        level = (Integer) documentSnapshot.get("currentLevel");
                         levelString = documentSnapshot.get("level").toString();
                         level = Integer.parseInt(levelString);
+                        Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
 
-                        Glide.with(getApplicationContext()).load(photoURL).into(imageView);
+                        if(!photoURL.equals("")){
+                            submit.setVisibility(View.VISIBLE);
+                            answer.setVisibility(View.VISIBLE);
+                        }else{
+//                            String nullPhoto = "https://firebasestorage.googleapis.com/v0/b/tourist-23bb8.appspot.com/o/deadlock_questions%2Fbackground-of-coming-soon-with-a-clock_1017-5059.jpg?alt=media&token=6b9373b5-0bc5-4bfa-9ab7-70fe782ed4bd";
+//                            Glide.with(getApplicationContext()).load(nullPhoto).into(imageView);
+                            submit.setVisibility(View.INVISIBLE);
+                            answer.setVisibility(View.INVISIBLE);
+
+                        }
+
+
                         levelText.setText("Level " + levelString);
 
-                        submit.setVisibility(View.VISIBLE);
-                        answer.setVisibility(View.VISIBLE);
+
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -156,6 +167,8 @@ public class Firestore extends AppCompatActivity {
 //                                TODO: change user levels....both previous and together..then refresh page
                                 Log.d("Answer","correct");
 
+
+//                                TODO : error pushing timestamp to logRef
 
                                 WriteBatch batch = db.batch();
                                 batch.set(logRef,new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date()));
@@ -220,14 +233,7 @@ public class Firestore extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
-
-
-
 
 
 }
