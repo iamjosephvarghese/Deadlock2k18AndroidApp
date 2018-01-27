@@ -58,16 +58,8 @@ public class Splash extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
-
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-
-
-
-
-
 
         signIn = findViewById(R.id.sign_in_button);
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -79,11 +71,6 @@ public class Splash extends AppCompatActivity implements
 
         //initially setting visibility to invisible
         signIn.setVisibility(View.INVISIBLE);
-
-
-
-
-
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
@@ -141,13 +128,8 @@ public class Splash extends AppCompatActivity implements
             }
         };
 
-
-
-
-
-
         loggedIn = sharedPreferences.getBoolean("isLoggedIn",false);
-        if(loggedIn == true){
+        if(loggedIn){
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -162,17 +144,12 @@ public class Splash extends AppCompatActivity implements
                         startActivity(loginIntent);
                         finish();
 
-
-
                 }
             },3000);
 
         }else {
             signIn.setVisibility(View.VISIBLE);
         }
-
-
-
 
     }
 

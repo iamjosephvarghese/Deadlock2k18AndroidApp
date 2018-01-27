@@ -182,7 +182,7 @@ public class Firestore extends AppCompatActivity {
                                 batch.set(logRef,new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date()));
 
 
-//                                TODO: doing 2 seperate updates for currentHash and previousHash
+//                                TODO: doing 2 seperate updates for currentHash and previousHash...will object work???
                                 batch.update(userUpdateRef,"previousHash",currentHash);
                                 batch.update(userUpdateRef,"currentHash",generatedHash);
                                 batch.update(userUpdateRef,"currentLevel",level);
