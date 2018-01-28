@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class Firestore extends AppCompatActivity {
 
 
@@ -59,8 +61,9 @@ public class Firestore extends AppCompatActivity {
 
 
     MaterialDialog.Builder builder;
-    MaterialDialog dialog;
+//    MaterialDialog dialog;
 
+//    SweetAlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,15 @@ public class Firestore extends AppCompatActivity {
                 .progress(true,0)
                 .progressIndeterminateStyle(true)
                 .cancelable(false);
-        dialog = builder.build();
+//        dialog = builder.build();
+
+//        TODO:sweet alert dialog....comment material dialog build in the above line
+
+        final SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Good job!")
+                .setContentText("You clicked the button!");
+
+
 
 
         mAuth = FirebaseAuth.getInstance();
