@@ -80,6 +80,7 @@ public class Firestore extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         answer = findViewById(R.id.answer);
 
+
         submit.setVisibility(View.INVISIBLE);
         answer.setVisibility(View.INVISIBLE);
 
@@ -91,11 +92,20 @@ public class Firestore extends AppCompatActivity {
                 .cancelable(false);
 //        dialog = builder.build();
 
-//        TODO:sweet alert dialog....comment material dialog build in the above line
+//        TODO:sweet alert dialog.....comment material dialog build in the above line
 
         final SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Good job!")
-                .setContentText("You clicked the button!");
+                .setTitleText("Correct")
+                .setContentText("Your Answer Is Correct!");
+
+
+        final SweetAlertDialog dialogError = new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Incorrect")
+                .setContentText("Please Try Again!");
+
+        final SweetAlertDialog comingDialog = new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText("Coming Soon!")
+                .setContentText("Next Level Will be Updated");
 
 
 
@@ -123,6 +133,15 @@ public class Firestore extends AppCompatActivity {
                 questionRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+//                        TODO: for photoURL null
+
+
+                        if(documentSnapshot.get("photoURL") == null){
+
+                        }
+
+
                         photoURL = documentSnapshot.get("photoURL").toString();
                         Log.d("photoUrl",photoURL);
 //                        TODO: fetching level error...need to be implemented
