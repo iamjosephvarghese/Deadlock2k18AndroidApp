@@ -67,8 +67,6 @@ public class Firestore extends AppCompatActivity {
 
     MaterialDialog.Builder builder;
 
-//    MaterialDialog dialog;
-//    SweetAlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +97,7 @@ public class Firestore extends AppCompatActivity {
                 .cancelable(false);
 //        dialog = builder.build();
 
-//        TODO:sweet alert dialog.....comment material dialog build in the above line
+//        TODO:sweet alert dialog...........comment material dialog build in the above line
 
         final SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Correct")
