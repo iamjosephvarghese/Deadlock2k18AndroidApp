@@ -108,7 +108,6 @@ public class Firestore extends AppCompatActivity {
         final SweetAlertDialog comingDialog = new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText("Coming Soon!")
                 .setContentText("Next Level Will be Updated")
-                .cance
                 .hideConfirmButton();
 
 
