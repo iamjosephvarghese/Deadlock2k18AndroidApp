@@ -2,9 +2,11 @@ package rm.iamjosephvarghese.deadlock2k18;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,9 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.hash.Hashing;
@@ -30,6 +35,8 @@ import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -111,6 +118,12 @@ public class Firestore extends AppCompatActivity {
                 .hideConfirmButton();
 
 
+        final SweetAlertDialog loadingDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE)
+                .setTitleText("Loading")
+                .setContentText("Loading Question")
+                .hideConfirmButton();
+
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
@@ -149,12 +162,28 @@ public class Firestore extends AppCompatActivity {
 
                         }else{
 
+                            loadingDialog.show();
+
                             Log.d("not null","not null");
 
                             photoURL = documentSnapshot.get("photoURL").toString();
                             Log.d("photoUrl",photoURL);
 
-                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
+                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark)
+                                    .listener(new RequestListener<String, GlideDrawable>() {
+                                        @Override
+                                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                            loadingDialog.dismiss();
+                                            return false;
+                                        }
+
+                                        @Override
+                                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                            loadingDialog.dismiss();
+                                            return false;
+                                        }
+                                    })
+                                    .into(imageView);
 
                             submit.setVisibility(View.VISIBLE);
                             answer.setVisibility(View.VISIBLE);
@@ -162,28 +191,10 @@ public class Firestore extends AppCompatActivity {
                         }
 
 
-
-//                        photoURL = documentSnapshot.get("photoURL").toString();
-//                        Log.d("photoUrl",photoURL);
-//                        level is currentLevel
-//                        level = (Integer) documentSnapshot.get("currentLevel");
-
-
                         levelString = documentSnapshot.get("level").toString();
                         level = Integer.parseInt(levelString);
 
 
-//                        Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
-//                        if(!photoURL.equals("")){
-//                            submit.setVisibility(View.VISIBLE);
-//                            answer.setVisibility(View.VISIBLE);
-//                        }else{
-////                            String nullPhoto = "https://firebasestorage.googleapis.com/v0/b/tourist-23bb8.appspot.com/o/deadlock_questions%2Fbackground-of-coming-soon-with-a-clock_1017-5059.jpg?alt=media&token=6b9373b5-0bc5-4bfa-9ab7-70fe782ed4bd";
-////                            Glide.with(getApplicationContext()).load(nullPhoto).into(imageView);
-//                            submit.setVisibility(View.INVISIBLE);
-//                            answer.setVisibility(View.INVISIBLE);
-//
-//                        }
 
                         levelText.setText("Level " + levelString);
 

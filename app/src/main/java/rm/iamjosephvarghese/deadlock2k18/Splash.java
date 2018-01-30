@@ -98,26 +98,18 @@ public class Splash extends AppCompatActivity implements
             Log.d("UID","Not signed in");
         }
 
-        ///////////
 
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                Toast.makeText(Splash.this, "Before Logged in.",
-//                        Toast.LENGTH_SHORT).show();
+
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d("UID",user.getUid());
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-//                    Toast.makeText(Splash.this, "Logged in.",
-//                            Toast.LENGTH_SHORT).show();
 
-//
-//
-//
-//                    getUID(user);
                     Log.d("UID",user.getUid());
                 } else {
                     // User is signed out
@@ -291,10 +283,6 @@ public class Splash extends AppCompatActivity implements
 
             }
         });
-
-//        Intent afterLogin = new Intent(Splash.this,Firestore.class);
-//        startActivity(afterLogin);
-
 
 
     }
