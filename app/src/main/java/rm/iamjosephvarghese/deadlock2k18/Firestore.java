@@ -84,6 +84,7 @@ public class Firestore extends AppCompatActivity {
         submit.setVisibility(View.INVISIBLE);
         answer.setVisibility(View.INVISIBLE);
 
+
         builder = new MaterialDialog.Builder(Firestore.this)
                 .title("Correct Answer!")
                 .content("Loading Next Question")
@@ -139,28 +140,47 @@ public class Firestore extends AppCompatActivity {
 
                         if(documentSnapshot.get("photoURL") == null){
 
+                            Log.d("null","null");
+
+                            submit.setVisibility(View.INVISIBLE);
+                            answer.setVisibility(View.INVISIBLE);
+                            photoURL = "";
+                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
+
+                        }else{
+
+                            Log.d("not null","not null");
+
+                            photoURL = documentSnapshot.get("photoURL").toString();
+                            Log.d("photoUrl",photoURL);
+
+                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
+
+                            submit.setVisibility(View.VISIBLE);
+                            answer.setVisibility(View.VISIBLE);
+
                         }
 
 
-                        photoURL = documentSnapshot.get("photoURL").toString();
-                        Log.d("photoUrl",photoURL);
+//                        photoURL = documentSnapshot.get("photoURL").toString();
+//                        Log.d("photoUrl",photoURL);
 //                        TODO: fetching level error...need to be implemented
 //                        level is currentLevel
 //                        level = (Integer) documentSnapshot.get("currentLevel");
                         levelString = documentSnapshot.get("level").toString();
                         level = Integer.parseInt(levelString);
-                        Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
+//                        Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
 
-                        if(!photoURL.equals("")){
-                            submit.setVisibility(View.VISIBLE);
-                            answer.setVisibility(View.VISIBLE);
-                        }else{
-//                            String nullPhoto = "https://firebasestorage.googleapis.com/v0/b/tourist-23bb8.appspot.com/o/deadlock_questions%2Fbackground-of-coming-soon-with-a-clock_1017-5059.jpg?alt=media&token=6b9373b5-0bc5-4bfa-9ab7-70fe782ed4bd";
-//                            Glide.with(getApplicationContext()).load(nullPhoto).into(imageView);
-                            submit.setVisibility(View.INVISIBLE);
-                            answer.setVisibility(View.INVISIBLE);
-
-                        }
+//                        if(!photoURL.equals("")){
+//                            submit.setVisibility(View.VISIBLE);
+//                            answer.setVisibility(View.VISIBLE);
+//                        }else{
+////                            String nullPhoto = "https://firebasestorage.googleapis.com/v0/b/tourist-23bb8.appspot.com/o/deadlock_questions%2Fbackground-of-coming-soon-with-a-clock_1017-5059.jpg?alt=media&token=6b9373b5-0bc5-4bfa-9ab7-70fe782ed4bd";
+////                            Glide.with(getApplicationContext()).load(nullPhoto).into(imageView);
+//                            submit.setVisibility(View.INVISIBLE);
+//                            answer.setVisibility(View.INVISIBLE);
+//
+//                        }
 
                         levelText.setText("Level " + levelString);
 
