@@ -36,10 +36,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class Firestore extends AppCompatActivity {
 
 
-
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-
 
     String currentHash,previousHash;
 
@@ -57,12 +55,12 @@ public class Firestore extends AppCompatActivity {
 
 
     SharedPreferences sharedPreferences;
-    //assume this is the user id genrated from google auth
+    //assume this is the user id generated from Google Auth
 
 
     MaterialDialog.Builder builder;
-//    MaterialDialog dialog;
 
+//    MaterialDialog dialog;
 //    SweetAlertDialog dialog;
 
     @Override
@@ -85,6 +83,7 @@ public class Firestore extends AppCompatActivity {
         answer.setVisibility(View.INVISIBLE);
 
 
+
         builder = new MaterialDialog.Builder(Firestore.this)
                 .title("Correct Answer!")
                 .content("Loading Next Question")
@@ -97,18 +96,20 @@ public class Firestore extends AppCompatActivity {
 
         final SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Correct")
-                .setContentText("Your Answer Is Correct!");
+                .setContentText("Your Answer Is Correct!")
+                .hideConfirmButton();
 
 
         final SweetAlertDialog dialogError = new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Incorrect")
-                .setContentText("Please Try Again!");
+                .setContentText("Please Try Again!")
+                .hideConfirmButton();
 
         final SweetAlertDialog comingDialog = new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText("Coming Soon!")
-                .setContentText("Next Level Will be Updated");
-
-
+                .setContentText("Next Level Will be Updated")
+                .cance
+                .hideConfirmButton();
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -116,9 +117,7 @@ public class Firestore extends AppCompatActivity {
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
         DocumentReference userRef = db.collection("users").document(user.getUid());
-
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -142,6 +141,8 @@ public class Firestore extends AppCompatActivity {
 
                             Log.d("null","null");
 
+                            comingDialog.show();
+
                             submit.setVisibility(View.INVISIBLE);
                             answer.setVisibility(View.INVISIBLE);
                             photoURL = "";
@@ -162,15 +163,18 @@ public class Firestore extends AppCompatActivity {
                         }
 
 
+
 //                        photoURL = documentSnapshot.get("photoURL").toString();
 //                        Log.d("photoUrl",photoURL);
-//                        TODO: fetching level error...need to be implemented
 //                        level is currentLevel
 //                        level = (Integer) documentSnapshot.get("currentLevel");
+
+
                         levelString = documentSnapshot.get("level").toString();
                         level = Integer.parseInt(levelString);
-//                        Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
 
+
+//                        Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
 //                        if(!photoURL.equals("")){
 //                            submit.setVisibility(View.VISIBLE);
 //                            answer.setVisibility(View.VISIBLE);
@@ -222,20 +226,19 @@ public class Firestore extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()){
 
-//                                TODO: change user levels....both previous and together..then refresh page
                                 Log.d("Answer","correct");
 
 
-//                                TODO : error pushing timestamp to logRef
 
                                 WriteBatch batch = db.batch();
                                 batch.set(logRef,new LogData(user.getUid(),answer.getText().toString(),level,user.getDisplayName(),user.getEmail(),sharedPreferences.getString("mobno",null),new Date()));
 
 
-//                                TODO: doing 2 seperate updates for currentHash and previousHash...will object work???
+//                                TODO: doing 2 seperate updates for currentHash and previousHash................will object work???
                                 batch.update(userUpdateRef,"previousHash",currentHash);
                                 batch.update(userUpdateRef,"currentHash",generatedHash);
                                 batch.update(userUpdateRef,"currentLevel",level);
+
 
 
                                 batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -248,23 +251,21 @@ public class Firestore extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         Log.d("batch","error");
                                     }
-
                                 });
 
+
                                 Log.d("refresh","");
+
 
                                 dialog.show();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-
-                                       dialog.dismiss();
+                                        dialog.dismiss();
                                        finish();
                                        startActivity(getIntent());
-
                                     }
                                 },3000);
-
 
                             }else{
                                 Log.d("Answer","incorrect");
@@ -272,6 +273,15 @@ public class Firestore extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("incorrectLog","success");
+
+                                        dialogError.show();
+
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                dialogError.dismiss();
+                                            }
+                                        },3000);
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
