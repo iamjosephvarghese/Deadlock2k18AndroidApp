@@ -85,7 +85,7 @@ public class Collect extends AppCompatActivity {
                                     Log.d("New User","success");
 
 
-//                                    TODO: adding details to sharedprferences to fetch later....mobono null in other activity
+//                                    TODO: adding details to shared prferences to fetch later....mobono null in other activity
                                     editor.putString("email",user.getEmail());
                                     editor.putString("mobno",mobno.getText().toString());
                                     Log.d("mobno",mobno.getText().toString());
