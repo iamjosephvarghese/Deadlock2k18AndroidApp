@@ -110,8 +110,6 @@ public class Collect extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
