@@ -29,6 +29,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,10 +58,40 @@ public class Splash extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private FirebaseUser user;
 
+    Boolean go;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("run");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                go = dataSnapshot.child("yes").getValue(String.class).equals("0");
+
+                Log.d("go",go.toString());
+//                    if(dataSnapshot.child("yes").getValue(String.class).equals("0")){
+//                    finish();
+//                    getIntent();
+//                    Log.d("here","......");
+//                }
+
+                Log.d("yes","success");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -265,16 +300,19 @@ public class Splash extends AppCompatActivity implements
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                if(documentSnapshot.exists()){
+                if(documentSnapshot.exists() && go){
                     Intent previousUser = new Intent(Splash.this,Firestore.class);
                     Log.d("Splash","if");
                     startActivity(previousUser);
                     finish();
                 }else{
+                    if(go)
+                    {
                     Intent newUser = new Intent(Splash.this,Collect.class);
                     Log.d("Splash","else");
                     startActivity(newUser);
                     finish();
+                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

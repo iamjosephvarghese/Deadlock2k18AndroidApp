@@ -13,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.hash.Hashing;
@@ -44,7 +46,8 @@ public class Firestore extends AppCompatActivity {
     String levelString;
     int level;
 
-    ImageView  imageView;
+    PhotoView imageView;
+//    ImageView imageView;
     TextView levelText;
     EditText answer;
 
@@ -71,6 +74,7 @@ public class Firestore extends AppCompatActivity {
 //        Log.d("user",user);
 
         imageView = findViewById(R.id.imageView);
+//        imageView.setOnTouchListener(new ImageMatrixTouchHandler(imageView.getContext()));
         levelText = findViewById(R.id.levelText);
         submit = findViewById(R.id.submit);
         answer = findViewById(R.id.answer);

@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:width="5dp"
-        android:color="#DC143C"/>
+        android:color="#fff"/>
     <corners
-        android:radius="10dp" />
+        android:radius="0dp" />
 
     <padding
         android:left="1dp"
@@ -13,6 +13,6 @@
         android:top="1dp"
         android:bottom="1dp"/>
 
-    <solid android:color="#fff"/>
+    <solid android:color="#000"/>
 
 </shape>
