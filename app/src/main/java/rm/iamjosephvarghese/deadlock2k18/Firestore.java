@@ -1,10 +1,12 @@
 package rm.iamjosephvarghese.deadlock2k18;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,6 +56,7 @@ public class Firestore extends AppCompatActivity {
     Button submit;
 
     String toBeHashed,generatedHash;
+    String noSpace;
 
 
     SharedPreferences sharedPreferences;
@@ -69,6 +72,9 @@ public class Firestore extends AppCompatActivity {
         setContentView(R.layout.activity_firestore);
 
 
+        Typeface bebas = Typeface.createFromAsset(getAssets(),  "fonts/bebasneue.ttf");
+
+
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 //        user=sharedPreferences.getString("UID",null);
 //        Log.d("user",user);
@@ -78,6 +84,10 @@ public class Firestore extends AppCompatActivity {
         levelText = findViewById(R.id.levelText);
         submit = findViewById(R.id.submit);
         answer = findViewById(R.id.answer);
+
+        levelText.setTypeface(bebas);
+        submit.setTypeface(bebas);
+        answer.setTypeface(bebas);
 
 
         submit.setVisibility(View.INVISIBLE);
@@ -211,7 +221,12 @@ public class Firestore extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!answer.getText().toString().equals("")){
-                    toBeHashed = answer.getText().toString() + photoURL + currentHash;
+
+                    String lowerCase = answer.getText().toString().toLowerCase();
+                    String[] parts = lowerCase.split(" ");
+                    noSpace = TextUtils.join("",parts);
+//                    toBeHashed = answer.getText().toString() + photoURL + currentHash;
+                    toBeHashed = noSpace + photoURL + currentHash;
 
                     Log.d("tobehashed",toBeHashed);
 
