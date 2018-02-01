@@ -1,12 +1,8 @@
 package rm.iamjosephvarghese.deadlock2k18;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,10 +29,6 @@ import com.google.firebase.firestore.WriteBatch;
 
 import java.nio.charset.Charset;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.sql.DataSource;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -156,7 +148,7 @@ public class Firestore extends AppCompatActivity {
                             submit.setVisibility(View.INVISIBLE);
                             answer.setVisibility(View.INVISIBLE);
                             photoURL = "";
-                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark).into(imageView);
+                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.comingsoon).into(imageView);
 
                         }else{
 
@@ -167,7 +159,7 @@ public class Firestore extends AppCompatActivity {
                             photoURL = documentSnapshot.get("photoURL").toString();
                             Log.d("photoUrl",photoURL);
 
-                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.common_google_signin_btn_icon_dark)
+                            Glide.with(getApplicationContext()).load(photoURL).placeholder(R.drawable.comingsoon)
                                     .listener(new RequestListener<String, GlideDrawable>() {
                                         @Override
                                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
