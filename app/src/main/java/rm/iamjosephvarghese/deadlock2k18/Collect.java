@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -94,7 +95,7 @@ public class Collect extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                TODO:mobno length always 10??????
-                if(!college.equals("") && !mobno.equals("")){
+                if(!college.getText().toString().equals("") && !mobno.getText().toString().equals("")){
 
                     userRef.set(new User(user.getDisplayName(),college.getText().toString(),user.getEmail(),user.getPhotoUrl().toString(),currentHash,previousHash,mobno.getText().toString(),level))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -123,6 +124,8 @@ public class Collect extends AppCompatActivity {
                         }
                     });
 
+                }else{
+                    Toast.makeText(Collect.this, "Please Enter the Required Details!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

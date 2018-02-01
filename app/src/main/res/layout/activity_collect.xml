@@ -34,7 +34,7 @@
             android:textStyle="bold"
             android:hint="College Name"
             android:inputType="textPersonName"
-            android:textSize="25dp"
+            android:textSize="27dp"
             tools:layout_editor_absoluteX="55dp"
             tools:layout_editor_absoluteY="62dp" />
 
@@ -51,7 +51,7 @@
             android:gravity="center_horizontal"
             android:hint="Mobile Number"
             android:inputType="phone"
-            android:textSize="25dp"
+            android:textSize="27dp"
             tools:layout_editor_absoluteX="55dp"
             tools:layout_editor_absoluteY="184dp" />
 
