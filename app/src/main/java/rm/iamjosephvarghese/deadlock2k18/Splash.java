@@ -58,7 +58,7 @@ public class Splash extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private FirebaseUser user;
 
-    Boolean go;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,29 +66,7 @@ public class Splash extends AppCompatActivity implements
         setContentView(R.layout.activity_splash);
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("run");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                go = dataSnapshot.child("yes").getValue(String.class).equals("0");
-
-                Log.d("go",go.toString());
-//                    if(dataSnapshot.child("yes").getValue(String.class).equals("0")){
-//                    finish();
-//                    getIntent();
-//                    Log.d("here","......");
-//                }
-
-                Log.d("yes","success");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
 
