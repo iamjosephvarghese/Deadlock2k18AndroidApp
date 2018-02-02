@@ -63,7 +63,6 @@ public class Splash extends AppCompatActivity implements
     SweetAlertDialog loadingDialog;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +75,6 @@ public class Splash extends AppCompatActivity implements
                 .setTitleText("Signing In")
                 .setContentText("Signing You In!")
                 .hideConfirmButton();
-
-
 
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
@@ -103,7 +100,7 @@ public class Splash extends AppCompatActivity implements
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-//                        Toast.makeText(Splash.this,"Error",Toast.LENGTH_LONG).show();
+                        Toast.makeText(Splash.this,"Error",Toast.LENGTH_LONG).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -185,13 +182,12 @@ public class Splash extends AppCompatActivity implements
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
+                Log.d(TAG,"result unsuccessfull");
                 Log.d(TAG,result.getStatus().toString());
                 updateUI(null);
             }
         }
     }
-
-
 
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -312,7 +308,6 @@ public class Splash extends AppCompatActivity implements
 
             }
         });
-
 
     }
 

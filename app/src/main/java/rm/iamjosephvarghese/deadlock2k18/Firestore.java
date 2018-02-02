@@ -71,16 +71,12 @@ public class Firestore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firestore);
 
-
         Typeface bebas = Typeface.createFromAsset(getAssets(),  "fonts/bebasneue.ttf");
 
-
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-//        user=sharedPreferences.getString("UID",null);
-//        Log.d("user",user);
+
 
         imageView = findViewById(R.id.imageView);
-//        imageView.setOnTouchListener(new ImageMatrixTouchHandler(imageView.getContext()));
         levelText = findViewById(R.id.levelText);
         submit = findViewById(R.id.submit);
         answer = findViewById(R.id.answer);
@@ -89,11 +85,8 @@ public class Firestore extends AppCompatActivity {
         submit.setTypeface(bebas);
         answer.setTypeface(bebas);
 
-
         submit.setVisibility(View.INVISIBLE);
         answer.setVisibility(View.INVISIBLE);
-
-
 
         builder = new MaterialDialog.Builder(Firestore.this)
                 .title("Correct Answer!")
@@ -108,7 +101,6 @@ public class Firestore extends AppCompatActivity {
                 .setTitleText("Correct")
                 .setContentText("Your Answer Is Correct!")
                 .hideConfirmButton();
-
 
         final SweetAlertDialog dialogError = new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
                 .setTitleText("Incorrect")
