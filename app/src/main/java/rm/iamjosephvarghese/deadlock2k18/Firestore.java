@@ -103,7 +103,6 @@ public class Firestore extends AppCompatActivity {
                 .cancelable(false);
 //        dialog = builder.build();
 
-//        TODO:sweet alert dialog...........comment material dialog build in the above line
 
         final SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText("Correct")
@@ -152,7 +151,7 @@ public class Firestore extends AppCompatActivity {
 
 
 
-                        if(documentSnapshot.get("photoURL").toString() == null){
+                        if(documentSnapshot.get("photoURL") == null){
 
                             Log.d("null","null");
 
@@ -267,6 +266,7 @@ public class Firestore extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Log.d("batch","error");
+                                        Log.d("batch",e.toString());
                                     }
                                 });
 
@@ -292,10 +292,12 @@ public class Firestore extends AppCompatActivity {
                                         Log.d("incorrectLog","success");
 
                                         dialogError.show();
+                                        Log.d("after","show");
 
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
+                                                Log.d("inside","run");
                                                 dialogError.dismiss();
                                             }
                                         },3000);

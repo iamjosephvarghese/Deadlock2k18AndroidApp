@@ -38,6 +38,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class Splash extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener{
 
@@ -58,6 +60,8 @@ public class Splash extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private FirebaseUser user;
 
+    SweetAlertDialog loadingDialog;
+
 
 
     @Override
@@ -67,6 +71,11 @@ public class Splash extends AppCompatActivity implements
 
 
 
+
+        loadingDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE)
+                .setTitleText("Signing In")
+                .setContentText("Signing You In!")
+                .hideConfirmButton();
 
 
 
@@ -166,6 +175,9 @@ public class Splash extends AppCompatActivity implements
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+
+            loadingDialog.show();
+
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Log.d(TAG,"Intent received");
             if (result.isSuccess()) {
@@ -284,6 +296,8 @@ public class Splash extends AppCompatActivity implements
                     startActivity(previousUser);
                     finish();
                 }else{
+
+                    loadingDialog.dismiss();
 
                     Intent newUser = new Intent(Splash.this,Collect.class);
                     Log.d("Splash","else");
